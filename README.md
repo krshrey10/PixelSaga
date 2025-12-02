@@ -1,5 +1,6 @@
+<!-- top banner (use a wide banner file stored in repo at /assets/banner.png) -->
 <p align="center">
-  <img src="C:\Users\admin\Downloads\PixelSaga.png" alt="PixelSaga-Procedural World Generation" />
+  <img src="assets/banner.png" alt="PixelSaga – Procedural World Generation" width="1100"/>
 </p>
 
 # 🚀 PixelSaga – Procedural World Generation Engine
@@ -187,14 +188,14 @@ Served automatically from backend/static/.
 <img width="884" height="725" alt="image" src="https://github.com/user-attachments/assets/3fd99c0c-af72-4ccf-b3ba-fa64e3ff257f" />
 <img width="868" height="723" alt="image" src="https://github.com/user-attachments/assets/3b1fe2d6-ec29-4b1b-af97-3e0e8ad46ecf" />
 <img width="493" height="719" alt="image" src="https://github.com/user-attachments/assets/61f8781b-708a-41b4-a381-7b458f739293" />
-![Hologram Map](static/screenshots/map.png)
-![Quest Timeline](static/screenshots/quest.png)
-![Asset Forge](static/screenshots/forge.png)
+![Hologram Map](backend/static/screenshots/map.png)
+![Quest Timeline](backend/static/screenshots/quest.png)
+![Asset Forge](backend/static/screenshots/forge.png)
 
 # 🌐 Live Demo
 
 <p align="center">
-  <img src="C:\Users\admin\OneDrive\Desktop\PixelSaga.gif" width="650" />
+  <img src="assets/demo.gif" alt="PixelSaga demo" width="720" />
 </p>
 
 
