@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local secret config
+.env
+.env.*
+secrets.json
+
+# Build / binary
+dist/
+build/
+*.egg-info/
+
+# Site packages that might have been committed earlier
+Lib/
+Scripts/
