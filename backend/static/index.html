@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PixelSaga — Procedural World Generation</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Theme -->
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body class="theme-fantasy">
+  <div class="wrap">
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="brand">
+        <h1>PIXELSAGA — PROCEDURAL WORLD GENERATION</h1>
+        <p>Cyberpunk · Procedural maps, quests &amp; assets · deterministic seeds, export &amp; saveable demos</p>
+      </div>
+
+      <div class="top-right">
+        <div class="top-controls">
+          <div class="top-controls-left">
+            <div class="export-group">
+              <button class="btn ghost small" id="download-json" title="Export project JSON">Export JSON</button>
+              <button class="btn ghost small" id="export-pdf" title="Export project PDF">Export PDF</button>
+              <button class="btn ghost small" id="export-map-image" title="Export map image">Export Map</button>
+            </div>
+            <div class="tools-group">
+              <button class="btn ghost small" id="save-seed">Save Seed</button>
+              <button class="btn ghost small" id="copy-seed-link">Copy Link</button>
+              <button class="btn ghost small" id="toggle-labels">Toggle Labels</button>
+            </div>
+          </div>
+          <div class="top-controls-right">
+            <div class="chip-row">
+              <div class="chip" aria-hidden="true"><span class="chip-label">API</span><span class="chip-value" id="api-latency">— ms</span></div>
+              <div class="chip chip-toggle" id="sound-toggle"><span class="chip-label">Sound</span><span class="chip-value" id="sound-state">Off</span></div>
+              <div class="chip" aria-hidden="true"><span class="chip-label">Seed</span><span class="chip-value" id="seed-chip">—</span></div>
+              <div class="chip chip-toggle" id="auto-gen-toggle" title="Auto generate on/off"><span class="chip-label">Auto</span><span class="chip-value">On</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="status-chips">
+          <div class="chip">
+            <span class="chip-label">API</span>
+            <span class="chip-value" id="api-latency">— ms</span>
+          </div>
+          <div class="chip chip-toggle" id="sound-toggle">
+            <span class="chip-label">Sound</span>
+            <span class="chip-value" id="sound-state">Off</span>
+          </div>
+          <div class="chip">
+            <span class="chip-label">Seed</span>
+            <span class="chip-value" id="seed-chip">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <span class="label-title">Genre</span>
+        <div class="pills" id="genre-pills">
+          <button class="pill active" data-genre="fantasy">Fantasy</button>
+          <button class="pill" data-genre="sci-fi">Sci-Fi</button>
+          <button class="pill" data-genre="post-apocalyptic">Post-Apoc</button>
+          <button class="pill" data-genre="cyberpunk">Cyberpunk</button>
+        </div>
+      </div>
+
+      <div class="toolbar-group">
+        <span class="label-title">Size</span>
+        <div class="pills" id="size-pills">
+          <button class="pill active" data-size="small">Small</button>
+          <button class="pill" data-size="medium">Medium</button>
+          <button class="pill" data-size="large">Large</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main 2-column layout -->
+    <div class="layout">
+      <!-- Map column -->
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h2>Hologram Map Table</h2>
+            <p class="section-sub">Voxel world projection · drag to orbit · deterministically seeded</p>
+          </div>
+          <button class="btn primary" id="generate-map">Generate Map</button>
+        </div>
+
+        <div class="map-3d-container">
+          <div id="map-grid" class="map-grid-overlay"></div>
+          <div class="map-hint">Drag to rotate · scroll to zoom (visual only)</div>
+        </div>
+
+        <div class="legend" id="map-legend"></div>
+        <div id="map-palette" class="map-palette"></div>
+
+        <div class="tile-inspector">
+          <span class="tile-inspector-label">Tile</span>
+          <span id="tile-inspector-pill" class="tile-inspector-pill">
+            Click a tile on the hologram table.
+          </span>
+          <div id="tile-flavor" class="tile-flavor"></div>
+        </div>
+      </section>
+
+      <!-- Quest column -->
+      <aside class="card">
+        <div class="section-header">
+          <div>
+            <h2>Quest Timeline</h2>
+            <p class="section-sub">Story beats generated from the same deterministic seed</p>
+          </div>
+          <div class="quest-controls">
+            <button class="btn ghost" id="export-quest">Export Quest</button>
+            <button class="btn ghost" id="regen-quest">Regenerate (Variation)</button>
+            <button class="btn primary" id="generate-quest">Generate Quest</button>
+          </div>
+        </div>
+
+        <div id="quest-header" class="quest-header">
+          <!-- Filled by JS -->
+        </div>
+        <div id="quest-progress" class="quest-progress"></div>
+
+        <div id="quest-timeline" class="quest-timeline">
+          <!-- Steps with emojis go here -->
+        </div>
+        <div class="quest-footer">
+          <div class="quest-footer-controls">
+            <button class="btn ghost" id="play-quest">Play Timeline</button>
+            <button class="btn ghost" id="pause-quest">Pause</button>
+            <button class="btn ghost" id="add-step">Add Step</button>
+          </div>
+          <div id="quest-play-status" class="quest-play-status">Not playing</div>
+        </div>
+
+        <div class="section-header small">
+          <h3>Seed Explorer</h3>
+        </div>
+
+        <div class="seed-explorer">
+          <div>
+            <div class="seed-column-title">Saved seeds</div>
+                <div id="saved-seeds" class="seed-list">
+              <div class="seed-empty">No saved seeds yet.</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="seed-column-title">Example seeds</div>
+              <div id="example-seeds" class="seed-list"></div>
+              <div class="seed-column-title">Apply / Import Seed</div>
+              <div class="seed-input-wrap">
+                <input id="seed-input" class="seed-input" placeholder="Enter seed or leave blank for random" aria-label="Seed input" />
+                <button class="btn ghost" id="apply-seed" title="Apply seed">Apply</button>
+                <button class="btn ghost" id="copy-seed" title="Copy current seed">Copy</button>
+              </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Asset Forge -->
+    <section class="card asset-card">
+      <div class="section-header">
+        <div>
+          <h2>Asset Forge</h2>
+          <p class="section-sub">Rotating holo-items · stats tied to sliders &amp; rarity</p>
+        </div>
+        <button class="btn primary" id="generate-asset">Generate Asset</button>
+      </div>
+
+      <div class="asset-layout">
+        <!-- Left: hologram visual, self-contained, no overlap -->
+        <div class="asset-3d-shell">
+          <div class="asset-visual">
+            <div id="asset-glyph" class="asset-glyph asset-type-weapon asset-rarity-common">
+              <div id="asset-element-glow" class="asset-element-glow"></div>
+            </div>
+          </div>
+          <div id="asset-glyph-label" class="asset-glyph-label">COMMON WEAPON</div>
+          <div id="asset-tier-track" class="asset-tier-track">
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+            <div class="tier-dot"></div>
+          </div>
+        </div>
+
+        <!-- Right: controls + description (no overlap) -->
+        <div class="asset-form">
+          <div class="customization">
+            <div class="field">
+              <label for="asset-type">Type</label>
+              <select id="asset-type">
+                <option value="weapon">Weapon</option>
+                <option value="armor">Armor</option>
+                <option value="artifact">Artifact</option>
+                <option value="consumable">Consumable</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="asset-material">Material</label>
+              <select id="asset-material"></select>
+            </div>
+
+            <div class="field">
+              <label for="asset-enhancement">Enhancement</label>
+              <select id="asset-enhancement">
+                <option value="none">None</option>
+                <option value="fire">Fire</option>
+                <option value="ice">Ice</option>
+                <option value="poison">Poison</option>
+                <option value="cyber">Cyber</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="asset-rarity">Rarity</label>
+              <select id="asset-rarity">
+                <option value="common">Common</option>
+                <option value="uncommon">Uncommon</option>
+                <option value="rare">Rare</option>
+                <option value="epic">Epic</option>
+                <option value="legendary">Legendary</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="sliders-row">
+            <div class="slider-block">
+              <label for="asset-power">Power <span id="power-value">5</span></label>
+              <input type="range" id="asset-power" min="1" max="10" value="5" />
+            </div>
+            <div class="slider-block">
+              <label for="asset-value">Value <span id="value-value">5</span></label>
+              <input type="range" id="asset-value" min="1" max="10" value="5" />
+            </div>
+            <button class="btn ghost" id="apply-customization">Apply</button>
+          </div>
+
+          <div id="asset-status" class="asset-status-line">
+            Seed — · Type — · Rarity — · Power —
+          </div>
+
+          <div id="asset-container" class="asset-details">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- cursor glow -->
+  <div id="cursor-glow"></div>
+
+  <!-- libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="static/script.js"></script>
+</body>
+</html>
