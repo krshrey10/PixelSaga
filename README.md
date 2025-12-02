@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="C:\Users\admin\Downloads\PixelSaga.png" alt="Mindshift – Tactical Rule-Shifting Card Game" />
+  <img src="C:\Users\admin\Downloads\PixelSaga.png" alt="PixelSaga-Procedural World Generation" />
 </p>
 
 # 🚀 PixelSaga – Procedural World Generation Engine
@@ -8,10 +8,15 @@ AI-Enhanced · Deterministic · Multi-Genre · Research-Level Project
 ## PixelSaga is a futuristic procedural world generation engine that combines:
 
 ✔ Algorithmic world generation (Perlin Noise, WFC-ready architecture)
+
 ✔ Deterministic seed system (hash-based PRNG)
+
 ✔ Quest generation with structured narrative beats
+
 ✔ Asset Forge with deterministic holo-items
+
 ✔ Multi-genre holographic map rendering (Fantasy, Cyberpunk, Sci-Fi, Post-Apoc)
+
 ✔ Exportable demo outputs (JSON, PDF-ready data)
 
 This project simulates how modern game engines generate maps, quests, and assets, while showcasing AI + algorithms integration, suitable for research, portfolios, and degree evaluations.
@@ -71,9 +76,13 @@ Quest beats are generated deterministically:
 ## The system produces:
 
 ✔ Dynamic item names
+
 ✔ Tier scores
+
 ✔ Procedural flavor text
+
 ✔ Bonus stats
+
 ✔ Perfect determinism
 
 # 🔐 4. Deterministic Seed Engine
@@ -183,8 +192,9 @@ Served automatically from backend/static/.
 ![Asset Forge](static/screenshots/forge.png)
 
 # 🌐 Live Demo
+
 <p align="center">
-  <img src=""C:\Users\admin\OneDrive\Desktop\PixelSaga.gif"" width="650" />
+  <img src="C:\Users\admin\OneDrive\Desktop\PixelSaga.gif" width="650" />
 </p>
 
 
