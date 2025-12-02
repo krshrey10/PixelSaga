@@ -1,6 +1,6 @@
 <!-- top banner (use a wide banner file stored in repo at /assets/banner.png) -->
 <p align="center">
-  <img src= "C:\Users\admin\Downloads\PixelSaga.png" alt="PixelSaga – Procedural World Generation" width="1100"/>
+  <img src= "PixelSaga.png" alt="PixelSaga – Procedural World Generation" width="1100"/>
 </p>
 
 # 🚀 PixelSaga – Procedural World Generation Engine
